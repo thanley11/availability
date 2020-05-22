@@ -1,9 +1,23 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { shallow } from 'enzyme';
 import App from './App';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
+describe("App", ()=> {
+  beforeAll(() => {
+    Date.now = jest.fn(() => 1590173622627) //2020-05-22
+  });
+
+  it('renders without crashing', ()=> {
+    shallow(<App />);
+  });
+
+  it('renders the current time in yyyy-mm-dd format', () => {
+    const wrapper = shallow(<App />);
+    const time = "2020-05-22";
+    expect(wrapper.contains(time)).toEqual(true);
+  });
+
 });
+
+
+
