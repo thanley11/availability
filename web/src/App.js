@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
+const { format } = require('date-fns');
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.fetchToday();
   }
 
-  async fetchToday() {
+  async componentDidMount() {
     try {
-      const res = await fetch("http://localhost:4433/today");
-      const json = await res.json();
-      this.setState({today: json.today});
-    } catch (e) {
-      console.error("Failed to fetch 'today' data", e);
+      this.fetchToday();
+    } catch(err) {
+
     }
+  }
+
+  fetchToday() {
+     const date = new Date();
+     const time = format(date, 'yyyy-MM-dd');
+     this.setState({today: time});
   }
 
   render() {
