@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
 
 class BookedTimes extends Component {
-    render(){
-
+    constructor(props) {
+        super(props);
+      }
     
+    async componentDidMount(){
+    
+    }
+    render(){
     return (
         <div>
         <h2>Booked Times</h2>

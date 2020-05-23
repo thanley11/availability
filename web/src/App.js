@@ -9,7 +9,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      availTimes : {}
+      availTimes : {},
+      isLoading: true,
+      today: null
     };
   }
 
@@ -26,8 +28,19 @@ class App extends Component {
     const url ="api/advisors/availability";
     const response = await fetch(url);
     const data = await response.json();
-    this.setState({availTimes: data})
     console.log(data);
+    let res = Object.keys(data).map(key => data[key])
+                               .reduce((_,curr) => curr)
+    const result =  Object.keys(res).reduce(function (acc, obj) {
+              let key = res[obj]
+              if (!acc[key]) {
+                acc[key] = []
+              }
+              acc[key].push(obj)
+              return acc
+            }, {});
+    this.setState({availTimes: result, isLoading: false})
+    console.log(result);
   }
 
   fetchToday() {
@@ -35,16 +48,19 @@ class App extends Component {
      const time = format(date, 'yyyy-MM-dd');
      this.setState({today: time});
   }
-   
+
   render() {
+    if (this.state.isLoading){
+
+    }
     return (
       <div className="App container">
         <h1>Book Time with an Advisor</h1>
 
         {this.state.today && <span id="today">Today is {this.state.today}.</span>}
 
-        <NameInput/> 
-        <AvailableTimes/>
+        <NameInput/>
+        {this.state.isLoading ? <span id="loadingv">Loading...</span> : <AvailableTimes availTimes={this.state.availTimes}/>}
         <BookedTimes/>
       </div>
     );

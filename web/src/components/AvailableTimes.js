@@ -1,7 +1,29 @@
+/*import React, { Component } from 'react';*/
+
+//class AvailableTimes extends Component {
+//render() {
+
+//const {availTimes} = this.props;  // Essentially does: const vals = this.state.vals;
+  //return (
+    //<div>
+      //{
+        //Object.keys(availTimes).map((key, index) => (
+          //<p key={index}> this is my key {key} and this is my value {availTimes[key]}</p>
+        //))
+      //}
+    //</div>
+  //)
+//}
+      //}
+
+/*export default AvailableTimes;*/
 import React, { Component } from 'react';
+import TimeBlock from './TimeBlock';
 
 class AvailableTimes extends Component {
-    render() {
+render() {
+
+        const {availTimes} = this.props;
         return (
         <div>
         <h2>Available Times</h2>
@@ -13,36 +35,15 @@ class AvailableTimes extends Component {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>35545</td>
+            {
+        Object.keys(availTimes).map((key, index) => (
+          <tr key={index}> 
+              <td>{key}</td>
               <td>
-                <ul className="list-unstyled">
-                  <li>
-                    <time dateTime="2019-04-04T13:00:00-04:00" className="book-time">4/4/2019 1:00 pm</time>
-                    <button className="book btn-small btn-primary">Book</button>
-                  </li>
-                  <li>
-                    <time dateTime="2019-04-05T10:00:00-04:00" className="book-time">4/5/2019 10:00 am</time>
-                    <button className="book btn-small btn-primary">Book</button>
-                  </li>
-                </ul>
+                <TimeBlock times={availTimes[key]}/>
               </td>
-            </tr>
-            <tr>
-              <td>36232</td>
-              <td>
-                <ul className="list-unstyled">
-                  <li>
-                    <time dateTime="2019-04-02T13:00:00-04:00" className="book-time">4/2/2019 1:00 pm</time>
-                    <button className="book btn-small btn-primary">Book</button>
-                  </li>
-                  <li>
-                    <time dateTime="2019-04-03T11:00:00-04:00" className="book-time">4/3/2019 11:00 am</time>
-                    <button className="book btn-small btn-primary">Book</button>
-                  </li>
-                </ul>
-              </td>
-            </tr>
+          </tr>
+            ))}
           </tbody>
         </table>
 
