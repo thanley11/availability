@@ -21,6 +21,14 @@ import React, { Component } from 'react';
 import TimeBlock from './TimeBlock';
 
 class AvailableTimes extends Component {
+    constructor(props) {
+        super(props);
+        this.callbackFunction = this.callbackFunction.bind(this);
+      }
+
+    callbackFunction = (time, instructor) => {
+        this.props.appCallback(time, instructor)
+    }
 render() {
 
         const {availTimes} = this.props;
@@ -40,7 +48,9 @@ render() {
           <tr key={index}> 
               <td>{key}</td>
               <td>
-                <TimeBlock times={availTimes[key]}/>
+                <TimeBlock parentCallback = {this.callbackFunction}
+                           instructor={key}
+                           times={availTimes[key]} />
               </td>
           </tr>
             ))}
