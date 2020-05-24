@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import { formatTime} from '../utils/timeHelper';
 class BookedTimes extends Component {
     flattenTimes(bookedTimes){
-        let result = [];
-        Object.keys(bookedTimes).map((x,i) => {
-            result.push(bookedTimes[x])
-        });
-        return result;
+        return Object.values(bookedTimes).reduce(function(acc, curr) {
+            return acc.concat(curr)
+          }, []);
+    
     }
     render(){
         const {bookedTimes} = this.props;
