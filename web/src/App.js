@@ -10,32 +10,7 @@ class App extends Component {
     super(props);
     this.state = {
       availTimes : {},
-      bookedTimes : {
-        "541249": [
-          {
-            "instructor": 541249,
-            "name": "asd",
-            "time": "2019-08-21T19:30:00-04:00"
-          },
-          {
-            "instructor": 541249,
-            "name": "asd",
-            "time": "2019-08-21T19:30:00-04:00"
-          }
-        ],
-        "as": [
-          {
-            "instructor": 541249,
-            "name": "asd",
-            "time": "2019-08-21T19:30:00-04:00"
-          },
-          {
-            "instructor": 541249,
-            "name": "asd",
-            "time": "2019-08-21T19:30:00-04:00"
-          }
-        ]
-      },
+      bookedTimes : {},
       isLoading: true,
       today: null,
       name: ''
@@ -60,11 +35,7 @@ class App extends Component {
     let res = Object.keys(data).reduce(function (acc, curr) {
       return acc.concat(data[curr]);
     }, []);
-    // let merged = res.reduce(function(acc, curr) {
-    //   return Object.assign(acc, curr);
-    // }, {});
 
-    // let result = []
     let merged = res.reduce(function(acc, curr) {
       return Object.assign(acc, curr);
     }, {});
@@ -77,28 +48,16 @@ class App extends Component {
       result[key].push(x);
     });
 
-    // console.log(merged);
-     this.setState({availTimes: result, isLoading: false})
+    this.setState({availTimes: result, isLoading: false})
   }
 
 
-  async bookTime( time, instructor) {
+  async bookTime(time, instructor) {
     const name = await this.state.name;
     if(name){ 
       let response = await bookTime({name, time, instructor})
       const data = await response.json();
-      console.log(data);
       this.setState({bookedTimes: data})
-      // this.setState((prevState) => (
-      //   Object.assign(
-      //     {}, 
-      //     this.state, 
-      //     { bookedTimes: [...prevState.bookedTimes, response] }
-      //   )
-      // ));
-      // let bookedTimes = this.state.bookedTimes
-      // 
-      // this.setState({ bookedTimes :booking});
     }
   }
   
