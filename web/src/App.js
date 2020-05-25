@@ -13,7 +13,8 @@ class App extends Component {
       bookedTimes : {},
       isLoading: true,
       today: null,
-      name: ''
+      name: '',
+      showError: false
     };
     this.bookTime = this.bookTime.bind(this);
     this.setName = this.setName.bind(this);
@@ -66,11 +67,15 @@ class App extends Component {
       let response = await bookTime({name, time, instructor})
       const data = await response.json();
       this.setState({bookedTimes: data})
+    } else {
+      this.setState({showError: true}) 
     }
   }
   
   setName(name) {
-    this.setState({name: name})
+    if(name){
+      this.setState({name: name, showError:false})
+    }
   }
     
   render() {
@@ -81,10 +86,13 @@ class App extends Component {
 
         {this.state.today && <span id="today">Today is {this.state.today}.</span>}
 
-        <NameInput nameCallback={this.setName}/>
-        {this.state.isLoading ? <span id="loading">Loading...</span> : <AvailableTimes availTimes={this.state.availTimes} 
-                                                                                       appCallback = {this.bookTime}/>}
-        {this.state.isLoading ? <span id="loading">Loading...</span> : <BookedTimes bookedTimes={this.state.bookedTimes}/>}
+        <NameInput nameCallback={this.setName} showError={this.state.showError}/>
+        {this.state.isLoading ? <span id="loading">Loading...</span> : 
+        <div> 
+          <AvailableTimes availTimes={this.state.availTimes} 
+                              appCallback = {this.bookTime}/>
+          <BookedTimes bookedTimes={this.state.bookedTimes}/>
+        </div>}
 
       </div>
     );

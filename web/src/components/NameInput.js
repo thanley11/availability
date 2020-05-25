@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import HelpBlock from './HelpBlock';
 
 class NameInput extends Component {
     constructor(props) {
@@ -11,14 +10,14 @@ class NameInput extends Component {
     }
 
 render(){
+    const {showError} = this.props;
     return (
         <div>
           <form id="name-form" className="col-md-6">
           <div className="form-group">
             <label htmlFor="name-field">Your Name</label>
-            <input type="text" id="name-field" className="form-control" onChange={e => this.inputName(e.target.value)} />
-            {/* {this.state.errors && <HelpBlock>{this.state.errors}</HelpBlock>} */}
-
+            <input type="text" id="name-field" className={showError ? "error" : ""} onChange={e => this.inputName(e.target.value)} />
+            {showError && <div>Please enter a name</div>}
           </div>
         </form>
         </div>
