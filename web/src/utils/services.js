@@ -1,6 +1,5 @@
 
-
-const bookTime  = async (params) => fetch(`http://localhost:4433/api/book-time/`, {
+const bookTime  = async (params) => fetch(`http://localhost:4433/api/booking/`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -16,4 +15,6 @@ const getAvailableTimes = async () => fetch(`${'https://cors-anywhere.herokuapp.
       },
 })
 
-export { bookTime, getAvailableTimes}
+const getBookingTimes = async () => fetch(`http://localhost:4433/api/booking/`);
+
+export { bookTime, getAvailableTimes, getBookingTimes}
