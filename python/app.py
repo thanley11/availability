@@ -23,8 +23,12 @@ class BookingDto(Model):
     instructor = IntType(required=True)
 
 
-# @app.errorhandler(HTTPException)
-@app.route('/api/book-time/', methods=['POST'])
+@app.route('/api/booking/', methods=['GET'])
+def get_bookings():
+    return jsonify(user_bookings), 200
+
+
+@app.route('/api/booking/', methods=['POST'])
 def book_time():
     try:
         payload = request.get_json()

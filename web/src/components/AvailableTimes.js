@@ -1,22 +1,3 @@
-/*import React, { Component } from 'react';*/
-
-//class AvailableTimes extends Component {
-//render() {
-
-//const {availTimes} = this.props;  // Essentially does: const vals = this.state.vals;
-  //return (
-    //<div>
-      //{
-        //Object.keys(availTimes).map((key, index) => (
-          //<p key={index}> this is my key {key} and this is my value {availTimes[key]}</p>
-        //))
-      //}
-    //</div>
-  //)
-//}
-      //}
-
-/*export default AvailableTimes;*/
 import React, { Component } from 'react';
 import TimeBlock from './TimeBlock';
 
