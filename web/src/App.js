@@ -3,7 +3,7 @@ import AvailableTimes from './components/AvailableTimes';
 import BookedTimes from './components/BookedTimes';
 import NameInput from './components/NameInput';
 import {fetchToday } from './utils/timeHelper';
-import { getAvailableTimes, bookTime } from './utils/services';
+import { getAvailableTimes, bookTime, getBookingTimes } from './utils/services';
 
 class App extends Component {
   constructor(props) {
@@ -23,13 +23,14 @@ class App extends Component {
     try {
       const today = fetchToday()
       this.setState({today: today});
-      await this.getTimes();
+      await this.getAvailTimes();
+      await this.getBookTimes();
     } catch(err) {
 
     }
   }
 
-  async getTimes(){
+  async getAvailTimes(){
     const response = await getAvailableTimes();
     const data = await response.json();
     let res = Object.keys(data).reduce(function (acc, curr) {
@@ -50,6 +51,13 @@ class App extends Component {
 
     this.setState({availTimes: result, isLoading: false})
   }
+
+  async getBookTimes(){
+    const response = await getBookingTimes();
+    const data = await response.json();
+    this.setState({bookedTimes: data})
+  }
+
 
 
   async bookTime(time, instructor) {
