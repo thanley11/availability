@@ -12,7 +12,7 @@ class BookedTimes extends Component {
         return (
             <div>
             <h2>Booked Times</h2>
-            {bookedTimes ? (
+       
             <table className="bookings table">
             <thead>
             <tr>
@@ -32,9 +32,6 @@ class BookedTimes extends Component {
             ))}
             </tbody>
         </table>
-            ) : (
-                <div> No times have been booked</div>
-            )}
         </div>
         )
     }

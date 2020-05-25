@@ -24,17 +24,23 @@ render() {
             </tr>
           </thead>
           <tbody>
-            {
-        Object.keys(availTimes).map((key, index) => (
-          <tr key={index}> 
-              <td>{key}</td>
-              <td>
-                <TimeBlock parentCallback = {this.callbackFunction}
-                           instructor={key}
-                           times={availTimes[key]} />
-              </td>
-          </tr>
-            ))}
+              {
+                 Object.keys(availTimes).map((key, index) => {
+                    if(availTimes[key].length > 0){
+                       return <tr key={index}> 
+                            <td>{key}</td>
+                            <td>
+                              <TimeBlock parentCallback = {this.callbackFunction}
+                                         instructor={key}
+                                         times={availTimes[key]} />
+                            </td>
+                        </tr>
+                        } else {
+                            return null
+                        }
+                })
+              }
+            
           </tbody>
         </table>
 

@@ -58,15 +58,18 @@ class App extends Component {
     const data = await response.json();
     this.setState({bookedTimes: data})
   }
-
-
-
+  
   async bookTime(time, instructor) {
-    const name = await this.state.name;
+    const name = this.state.name;
     if(name){ 
       let response = await bookTime({name, time, instructor})
       const data = await response.json();
-      this.setState({bookedTimes: data})
+      const removeTime = this.state.availTimes[instructor].filter(x => x !== time)
+      const exceptTimes = {
+        ...this.state.availTimes,
+        [instructor]: removeTime
+      }
+      this.setState({bookedTimes: data, availTimes: exceptTimes})
     } else {
       this.setState({showError: true}) 
     }
