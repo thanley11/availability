@@ -17,7 +17,11 @@ render(){
           <div className="form-group">
             <label htmlFor="name-field">Your Name</label>
             <input type="text" id="name-field" className={showError ? "error" : ""} onChange={e => this.inputName(e.target.value)} />
-            {showError && <div>Please enter a name</div>}
+            {showError && 
+            <label htmlFor="" className="danger-text">
+               <small>Please enter a name</small> 
+            </label>
+             }
           </div>
         </form>
         </div>
