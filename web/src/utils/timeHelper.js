@@ -20,5 +20,30 @@ const fetchToday = () => {
     return format(date, 'yyyy-MM-dd');
  }
 
+ const convertTimeData = (data) => {
+    let res = Object.keys(data).reduce(function (acc, curr) {
+      return acc.concat(data[curr]);
+    }, []);
 
-export {formatTime, sortTimesDateDesc, fetchToday}
+    let merged = res.reduce(function(acc, curr) {
+      return Object.assign(acc, curr);
+    }, {});
+    let result = {}
+    Object.keys(merged).forEach(x => {
+      let key = merged[x]
+      if (!result[key]) {
+        result[key] = []
+      }
+      result[key].push(x);
+    });
+    return result;
+  }
+  
+const flattenTimes = (bookedTimes) => {
+    return Object.values(bookedTimes).reduce(function(acc, curr) {
+        return acc.concat(curr)
+      }, []);
+
+}
+
+export {formatTime, sortTimesDateDesc, fetchToday, convertTimeData, flattenTimes}

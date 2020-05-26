@@ -15,6 +15,6 @@ const getAvailableTimes = async () => fetch(`${'https://cors-anywhere.herokuapp.
       },
 })
 
-const getBookingTimes = async () => fetch(`http://localhost:4433/api/booking/`);
+const bookingTimes = async () => fetch(`http://localhost:4433/api/booking/`);
 
-export { bookTime, getAvailableTimes, getBookingTimes}
+export { bookTime, getAvailableTimes, bookingTimes}
