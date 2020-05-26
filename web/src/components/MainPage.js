@@ -1,45 +1,39 @@
-import React , {useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React , {useEffect } from 'react';
 import AvailableTimes from './AvailableTimes';
 import BookedTimes from './BookedTimes';
 import NameInput from './NameInput';
-import { fetchToday, convertTimeData } from '../utils/timeHelper';
-import { getAvailableTimes, getBookingTimes } from '../utils/services';
+import { fetchToday } from '../utils/timeHelper';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBookingTimesThunk, getAvailableTimesThunk, bookTimeThunk } from '../store/effects';
+import { showInputErrorAction } from '../store/actions';
 
 export default function MainPage(){
-    const showMsg = useSelector((state) => state.showMsg);
-    const showError = useSelector((state) => state.showError);
+
+    function bookTime(time, instructor){
+        if(name){
+            dispatch(bookTimeThunk(name, time, instructor))
+        } else {
+            window.scrollTo(0, scrollRef.current.offsetTop);
+            dispatch(showInputErrorAction());
+        }
+       
+    }
     const today = fetchToday();
-    const [availTimes, setAvailTimes] = useState({});
-    const [bookedTimes, setBookedTimes] = useState({});
-    const [isAvailLoading, setAvailLoading] = useState(true)
-    const [isBookedLoading, setBookedLoading] = useState(true)
+    
+    const showInputError = useSelector(state => state.showInputError);
+    const showMsg = useSelector(state => state.showMsg);
+    const availTimes = useSelector(state => state.availTimes);
+    const bookedTimes = useSelector(state => state.bookedTimes);
+    const isAvailLoading = useSelector(state => state.isAvailLoading);
+    const isBookedLoading = useSelector(state => state.isBookedLoading);
+    const name = useSelector(state => state.name);
+    const dispatch = useDispatch();
     useEffect(() => {
-        async function getAvailTimes(){
-
-            const response = await getAvailableTimes();
-            const data = await response.json();
-            const result = convertTimeData(data);
-            setAvailTimes(result);
-            setAvailLoading(false);
-          }
-          getAvailTimes();
-    }, []);
-    useEffect(() =>{
-        async function getTimes(){
-
-            const response = await getBookingTimes();
-            const data = await response.json();
-            setBookedTimes(data);
-            setBookedLoading(false);
-          }
-          getTimes();
-    }, []);
- 
-    // useEffect(getAvailTimesEffect, []).then(data => dispatch(getAvailTimesSuccess(data)));
-    // useEffect(getBookTimesEffect, []).then(data => dispatch(getBookingTimesSuccess(data)));
-
-    // const scrollRef = React.useRef();
+        dispatch(getBookingTimesThunk());
+        dispatch(getAvailableTimesThunk());
+    }, [dispatch])
+    
+    const scrollRef = React.useRef(null);
 
     return (
         <div className="App container">
@@ -47,18 +41,16 @@ export default function MainPage(){
 
         {today && <span id="today">Today is {today}.</span>}
 
-        {/* <NameInput nameCallback={this.setName} ref={scrollRef} showError={showError}/> */}
-        <NameInput  showError={showError}/>
-
+        <div ref={scrollRef}><NameInput  showInputError={showInputError}/>
+        </div>
         {isAvailLoading ? <span id="loading">Loading...</span> : 
         <div> 
-          <AvailableTimes availTimes={availTimes}/>
-         
-        </div>}
+            <AvailableTimes availTimes={availTimes}  appCallback = {bookTime}/>
+        </div>
+        }
         {isBookedLoading ? <span id="loading">Loading...</span> : 
         <div> 
-                <BookedTimes bookedTimes={bookedTimes} />
-         
+            <BookedTimes bookedTimes={bookedTimes} />
         </div>}
 
         {showMsg ? <div className="alert alert-info bottom-right">Booking Added</div> : null}
