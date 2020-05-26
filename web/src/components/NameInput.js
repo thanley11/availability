@@ -1,32 +1,24 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { useDispatch } from 'react-redux';
+import { setName } from '../store/actions';
 
-class NameInput extends Component {
-    constructor(props) {
-        super(props);
-        this.inputName = this.inputName.bind(this);
-      }
-    inputName = (name) => {
-       this.props.nameCallback(name)
-    }
+export default function NameInput(props) {
+    const {showInputError} = props;
+    const dispatch = useDispatch();
 
-render(){
-    const {showError} = this.props;
     return (
-        <div>
-          <form id="name-form" className="col-md-6">
-          <div className="form-group">
-            <label htmlFor="name-field">Your Name</label>
-            <input type="text" id="name-field" className={showError ? "error" : ""} onChange={e => this.inputName(e.target.value)} />
-            {showError && 
-            <label htmlFor="" className="danger-text">
-               <small>Please enter a name</small> 
-            </label>
-             }
-          </div>
-        </form>
-        </div>
+            <div>
+              <form id="name-form" className="col-md-6">
+              <div className="form-group">
+                <label htmlFor="name-field">Your Name</label>
+                <input type="text" id="name-field" className={showInputError ? "error" : ""} onChange={e => dispatch(setName(e.target.value))} />
+                {showInputError && 
+                <label htmlFor="" className="danger-text">
+                   <small>Please enter a name</small> 
+                </label>
+                 }
+              </div>
+            </form>
+            </div>
     )
-            }
 }
-
-export default NameInput;

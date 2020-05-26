@@ -1,19 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import TimeBlock from './TimeBlock';
+import { useSelector } from 'react-redux';
 
-class AvailableTimes extends Component {
-    constructor(props) {
-        super(props);
-        this.callbackFunction = this.callbackFunction.bind(this);
-      }
-
-    callbackFunction = (time, instructor) => {
-        this.props.appCallback(time, instructor)
+export default function AvailableTimes(props) {
+    function callbackFunction (time, instructor) {
+        props.appCallback(time, instructor)
     }
-render() {
+    const availTimes = useSelector((state) => state.availTimes);
 
-        const {availTimes} = this.props;
-        return (
+    return (
         <div>
         <h2>Available Times</h2>
         <table className="advisors table">
@@ -30,23 +25,20 @@ render() {
                        return <tr key={index}> 
                             <td>{key}</td>
                             <td>
-                              <TimeBlock parentCallback = {this.callbackFunction}
+                              <TimeBlock emitCallback = {callbackFunction} 
                                          instructor={key}
                                          times={availTimes[key]} />
                             </td>
                         </tr>
-                        } else {
-                            return null
-                        }
+                    } else {
+                        return null
+                    }
                 })
               }
             
           </tbody>
         </table>
-
         </div>
     )
-        }
 }
 
-export default AvailableTimes;

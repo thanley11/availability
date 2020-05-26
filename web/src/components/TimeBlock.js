@@ -1,34 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { formatTime, sortTimesDateDesc} from '../utils/timeHelper';
 
-class TimeBlock extends Component {
-    constructor(props) {
-        super(props);
-        this.emitBooking = this.emitBooking.bind(this);
-      }
+export default function TimeBlock(props) {
+    function emitBooking (time, instructor) {
+        props.emitCallback(time, instructor);
 
-    emitBooking = (time, instructor) => {
-        this.props.parentCallback(time, instructor);
     }
-
-render() {
-
-        const {times, instructor} = this.props;
+    const {times, instructor} = props;
         return (
             <ul className="list-unstyled">
             {
                 sortTimesDateDesc(times).map((time, index) => (
                     <li key={index}>
                         <span className="book-time">{formatTime(time)}</span>
-                        <button onClick={() => this.emitBooking(time, instructor)}
+                        <button onClick={() => emitBooking(time, instructor)}
                                 className="book btn-small btn-primary">Book</button>
                     </li>
                     ))
             }
             </ul>  
     )
-  }
 }
-
-export default TimeBlock;
-
