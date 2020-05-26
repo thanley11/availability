@@ -28,7 +28,7 @@ class App extends Component {
       this.setState({today: today});
       await this.getBookTimes();
       await this.getAvailTimes();
-     
+      this.setState({isLoading: false}) 
     } catch(err) {
 
     }
@@ -37,22 +37,8 @@ class App extends Component {
   async getAvailTimes(){
     const response = await getAvailableTimes();
     const data = await response.json();
-    let res = Object.keys(data).reduce(function (acc, curr) {
-      return acc.concat(data[curr]);
-    }, []);
-
-    let merged = res.reduce(function(acc, curr) {
-      return Object.assign(acc, curr);
-    }, {});
-    let result = {}
-    Object.keys(merged).forEach(x => {
-      let key = merged[x]
-      if (!result[key]) {
-        result[key] = []
-      }
-      result[key].push(x);
-    });
-    this.setState({availTimes: result, isLoading: false})
+    const result = this.convertTimeData(data);
+    this.setState({availTimes: result})
   }
 
   async getBookTimes(){
@@ -73,19 +59,41 @@ class App extends Component {
         [instructor]: removeTime
       }
       this.setState({bookedTimes: data, availTimes: exceptTimes});
-      this.setState({
-        showMsg:true
-      });
-      setTimeout(() => {
-        this.setState({
-          showMsg:false
-        }); 
-      }, 3000)
-     
+      this.showMsg();
     } else {
       window.scrollTo(0, this.scrollRef.current.offsetTop);
       this.setState({showError: true}) 
     }
+  }
+
+  convertTimeData(data){
+    let res = Object.keys(data).reduce(function (acc, curr) {
+      return acc.concat(data[curr]);
+    }, []);
+
+    let merged = res.reduce(function(acc, curr) {
+      return Object.assign(acc, curr);
+    }, {});
+    let result = {}
+    Object.keys(merged).forEach(x => {
+      let key = merged[x]
+      if (!result[key]) {
+        result[key] = []
+      }
+      result[key].push(x);
+    });
+    return result;
+  }
+
+  showMsg(){
+    this.setState({
+      showMsg:true
+    });
+    setTimeout(() => {
+      this.setState({
+        showMsg:false
+      }); 
+    }, 3000)
   }
   
   setName(name) {
