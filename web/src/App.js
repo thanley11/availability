@@ -14,18 +14,21 @@ class App extends Component {
       isLoading: true,
       today: null,
       name: '',
-      showError: false
+      showError: false,
+      showMsg: false
     };
     this.bookTime = this.bookTime.bind(this);
     this.setName = this.setName.bind(this);
+    this.scrollRef = React.createRef();
   }
 
   async componentDidMount() {
     try {
       const today = fetchToday()
       this.setState({today: today});
-      await this.getAvailTimes();
       await this.getBookTimes();
+      await this.getAvailTimes();
+     
     } catch(err) {
 
     }
@@ -49,7 +52,6 @@ class App extends Component {
       }
       result[key].push(x);
     });
-
     this.setState({availTimes: result, isLoading: false})
   }
 
@@ -57,8 +59,9 @@ class App extends Component {
     const response = await getBookingTimes();
     const data = await response.json();
     this.setState({bookedTimes: data})
+    return data;
   }
-  
+
   async bookTime(time, instructor) {
     const name = this.state.name;
     if(name){ 
@@ -69,8 +72,18 @@ class App extends Component {
         ...this.state.availTimes,
         [instructor]: removeTime
       }
-      this.setState({bookedTimes: data, availTimes: exceptTimes})
+      this.setState({bookedTimes: data, availTimes: exceptTimes});
+      this.setState({
+        showMsg:true
+      });
+      setTimeout(() => {
+        this.setState({
+          showMsg:false
+        }); 
+      }, 3000)
+     
     } else {
+      window.scrollTo(0, this.scrollRef.current.offsetTop);
       this.setState({showError: true}) 
     }
   }
@@ -89,13 +102,14 @@ class App extends Component {
 
         {this.state.today && <span id="today">Today is {this.state.today}.</span>}
 
-        <NameInput nameCallback={this.setName} showError={this.state.showError}/>
+        <NameInput nameCallback={this.setName} ref={this.scrollRef} showError={this.state.showError}/>
         {this.state.isLoading ? <span id="loading">Loading...</span> : 
         <div> 
           <AvailableTimes availTimes={this.state.availTimes} 
                               appCallback = {this.bookTime}/>
           <BookedTimes bookedTimes={this.state.bookedTimes}/>
         </div>}
+        {this.state.showMsg ? <div className="alert alert-info bottom-right">Booking Added</div> : null}
 
       </div>
     );
