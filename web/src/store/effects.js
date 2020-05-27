@@ -44,13 +44,24 @@ export function getBookingTimesThunk() {
             }
             return {data} 
         })
-        .then(({data, exceptTimes = null}) =>
-            Promise.all([
-                dispatch(getBookingTimesSuccess(data)),
-                dispatch(getAvailTimesSuccess(exceptTimes)),
-                dispatch(showMsg())
-              ]),
-            () => dispatch(hasError())
+        .then(({data, exceptTimes = null}) =>{
+            if(exceptTimes){
+                return Promise.all([
+                    dispatch(getBookingTimesSuccess(data)),
+                    dispatch(getAvailTimesSuccess(exceptTimes)),
+                    dispatch(showMsg())
+                  ]),
+                () => dispatch(hasError())
+            }else {
+                return Promise.all([
+                    dispatch(getBookingTimesSuccess(data)),
+                    dispatch(showMsg())
+                  ]),
+                () => dispatch(hasError()) 
+            }
+           
+        }
+           
         ); 
     }
 }
