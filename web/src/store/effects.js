@@ -1,10 +1,10 @@
 import { getAvailableTimes, bookingTimes, bookTime } from "../utils/services";
 import { convertTimeData } from '../utils/timeHelper';
-import { getBookingTimes, getAvailTimesSuccess, hasError, getBookingTimesSuccess, toggleShowMsg} from './actions';
+import { getBookingTimes, getAvailTimesAction, getAvailTimesSuccess, hasError, getBookingTimesSuccess, toggleShowMsg} from './actions';
 
 export function getAvailableTimesThunk() {
     return function(dispatch) {
-      dispatch(getAvailableTimes);
+      dispatch(getAvailTimesAction);
       return getAvailableTimes()
       .then((result) => result.json())
       .then((data) => convertTimeData(data))
@@ -33,14 +33,18 @@ export function getBookingTimesThunk() {
         return bookTime({name, time, instructor})
         .then((result) => result.json())
         .then((data) => {
-            const removeTime = getState().availTimes[instructor].filter(x => x !== time)
-            const exceptTimes = {
-                ...getState().availTimes,
-                [instructor]: removeTime
-            } 
-            return {data,exceptTimes}
+            const current = getState().availTimes;
+            if(current[instructor]){
+                const filtered = current[instructor].filter(x => x !== time)
+                const exceptTimes = {
+                    ...current,
+                    [instructor]: filtered
+                } 
+                return {data,exceptTimes}
+            }
+            return {data} 
         })
-        .then(({data, exceptTimes}) =>
+        .then(({data, exceptTimes = null}) =>
             Promise.all([
                 dispatch(getBookingTimesSuccess(data)),
                 dispatch(getAvailTimesSuccess(exceptTimes)),

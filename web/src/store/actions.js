@@ -20,7 +20,7 @@ export function getBookingTimesSuccess(bookings){
     }
 }
 
-export function getAvailTimes(){
+export function getAvailTimesAction(){
     return {
         type: GET_AVAIL_TIMES
     }
