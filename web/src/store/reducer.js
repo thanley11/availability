@@ -5,7 +5,6 @@ const initState = {
     bookedTimes : {},
     isAvailLoading: false,
     isBookedLoading: false,
-    today: null,
     name: '',
     showInputError: false,
     showError: false,
