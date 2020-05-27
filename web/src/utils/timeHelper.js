@@ -16,7 +16,7 @@ const sortTimesDateAsc = (times) => {
 }
 
 const fetchToday = () => {
-    const date = new Date();
+    const date = new Date(Date.now())
     return format(date, 'yyyy-MM-dd');
  }
 
