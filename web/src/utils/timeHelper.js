@@ -9,7 +9,7 @@ const formatTime = (date) => {
     return '';
 }
 
-const sortTimesDateDesc = (times) => {
+const sortTimesDateAsc = (times) => {
     return times.sort((x,y) => {
         return new Date(x) - new Date(y);
     })
@@ -46,4 +46,4 @@ const flattenTimes = (bookedTimes) => {
 
 }
 
-export {formatTime, sortTimesDateDesc, fetchToday, convertTimeData, flattenTimes}
+export {formatTime, sortTimesDateAsc, fetchToday, convertTimeData, flattenTimes}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatTime, sortTimesDateDesc} from '../utils/timeHelper';
+import { formatTime, sortTimesDateAsc} from '../utils/timeHelper';
 
 export default function TimeBlock(props) {
     function emitBooking (time, instructor) {
@@ -10,7 +10,7 @@ export default function TimeBlock(props) {
         return (
             <ul className="list-unstyled">
             {
-                sortTimesDateDesc(times).map((time, index) => (
+                sortTimesDateAsc(times).map((time, index) => (
                     <li key={index}>
                         <span className="book-time">{formatTime(time)}</span>
                         <button onClick={() => emitBooking(time, instructor)}
