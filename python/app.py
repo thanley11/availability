@@ -1,14 +1,10 @@
 import json
 from flask import Flask, request, jsonify, abort
 from flask_cors import CORS
-import requests
 
 from schematics.models import Model
 from schematics.types import IntType, StringType
-from schematics.types.compound import ModelType, ListType
-
 from schematics.exceptions import ModelValidationError
-from werkzeug.exceptions import HTTPException
 from collections import defaultdict
 
 app = Flask(__name__)
@@ -26,7 +22,6 @@ class BookingDto(Model):
 @app.route('/api/booking/', methods=['GET'])
 def get_bookings():
     return jsonify(user_bookings), 200
-
 
 @app.route('/api/booking/', methods=['POST'])
 def book_time():
