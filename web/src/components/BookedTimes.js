@@ -7,7 +7,7 @@ export default function BookedTimes(props) {
     return (
         <div>
         <h2>Booked Times</h2>
-        {Object.keys(bookedTimes).length ? (
+        {bookedTimes && Object.keys(bookedTimes).length ? (
         <table className="bookings table">
         <thead>
         <tr>
@@ -28,7 +28,7 @@ export default function BookedTimes(props) {
         </tbody>
     </table>
         ) : (
-            <div> No times have been booked</div>
+            <div>No times have been booked</div>
         )}
     </div>
     )
