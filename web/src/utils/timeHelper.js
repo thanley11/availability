@@ -1,5 +1,5 @@
 
-const { format } = require('date-fns');
+import { format} from 'date-fns';
 
 const formatTime = (date) => {
     if(date){
