@@ -21,7 +21,7 @@ const fetchToday = () => {
  }
 
  
- const convertTimeData = (data) => {
+ const convertTimeData = (data, bookedTimes ={}) => {
     let res = Object.keys(data).reduce(function (acc, curr) {
       return acc.concat(data[curr]);
     }, []);
@@ -29,9 +29,10 @@ const fetchToday = () => {
     let merged = res.reduce(function(acc, curr) {
       return Object.assign(acc, curr);
     }, {});
+    let filtered = omitTimes(merged, bookedTimes);
     let result = {}
-    Object.keys(merged).forEach(x => {
-      let key = merged[x]
+    Object.keys(filtered).forEach(x => {
+      let key = filtered[x]
       if (!result[key]) {
         result[key] = []
       }
@@ -47,4 +48,17 @@ const flattenTimes = (bookedTimes) => {
 
 }
 
-export {formatTime, sortTimesDateAsc, fetchToday, convertTimeData, flattenTimes}
+const omitTimes = (availTimes, bookedTimes) =>{
+    const filtered = {};
+    Object.keys(availTimes).forEach(key => {
+        let val = availTimes[key];
+        if(bookedTimes[val] && bookedTimes[val].findIndex(x => x.time === key) !== -1){
+            return;
+        } else {
+            Object.assign(filtered, {[key]:val})
+        }
+        });
+    return filtered;
+}
+
+export {formatTime, sortTimesDateAsc, fetchToday, convertTimeData, flattenTimes, omitTimes}

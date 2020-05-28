@@ -65,7 +65,8 @@ describe('async actions', () => {
     })
     const expectedAction = [
         { type: actions.GET_BOOKINGS},
-        { type: actions.GET_BOOKINGS_SUCCESS, payload: payload}
+        { type: actions.GET_BOOKINGS_SUCCESS, payload: payload},
+        { type: actions.GET_AVAIL_TIMES}
     ]
     
     const store = mockStore(init);

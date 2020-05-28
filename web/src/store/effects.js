@@ -3,11 +3,11 @@ import { convertTimeData } from '../utils/timeHelper';
 import { getBookingTimes, getAvailTimesAction, getAvailTimesSuccess, hasError, getBookingTimesSuccess, toggleShowMsg} from './actions';
 
 export function getAvailableTimesThunk() {
-    return function(dispatch) {
+    return function(dispatch, getState) {
       dispatch(getAvailTimesAction());
       return getAvailableTimes()
       .then((result) => result.json())
-      .then((data) => convertTimeData(data))
+      .then((data) => convertTimeData(data, getState().bookedTimes))
       .then(
         (result) => dispatch(getAvailTimesSuccess(result)),
         () => dispatch(hasError())
@@ -21,7 +21,13 @@ export function getBookingTimesThunk() {
       return bookingTimes()
       .then((result) => result.json())
       .then(
-        (result) => dispatch(getBookingTimesSuccess(result)),
+        (result) => {
+            return Promise.all([
+                dispatch(getBookingTimesSuccess(result)),
+                dispatch(getAvailableTimesThunk())
+              ]),
+            () => dispatch(hasError())
+        },
         () => dispatch(hasError())
       );
     };

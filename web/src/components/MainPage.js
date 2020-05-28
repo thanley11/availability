@@ -30,7 +30,6 @@ export default function MainPage(){
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getBookingTimesThunk());
-        dispatch(getAvailableTimesThunk());
     }, [dispatch])
     
     const scrollRef = React.useRef(null);

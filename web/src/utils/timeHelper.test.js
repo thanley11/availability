@@ -1,4 +1,4 @@
-import { formatTime,sortTimesDateAsc, fetchToday, convertTimeData, flattenTimes } from './timeHelper';
+import { formatTime,sortTimesDateAsc, fetchToday, convertTimeData, flattenTimes, omitTimes } from './timeHelper';
 
 describe('timeHelper', () => {
    beforeAll(() => {
@@ -38,4 +38,23 @@ describe('timeHelper', () => {
   it('flattenTimes should return todays date and formatted in yyyy-MM-dd format', () => {
     expect(flattenTimes(bookedTimes)).toEqual(["2019-08-27T14:00:00-04:00", "2019-08-27T13:00:00-04:00"])
   })
+  it('omitBookedTimes should return', () => {
+      const booked = {
+        "123123": [
+          {
+            "instructor": 123123,
+            "name": "Bob",
+            "time": "2019-08-27T14:00:00-04:00"
+          }
+        ]
+      };
+      const flatAvailTimes = {
+        "2019-08-27T14:00:00-04:00": 123123,
+        "2019-08-27T13:00:00-04:00": 372955,
+        "2019-08-27T10:00:00-04:00": 372955
+      }
+    expect(omitTimes(flatAvailTimes, booked)).toEqual({"2019-08-27T13:00:00-04:00": 372955,
+    "2019-08-27T10:00:00-04:00": 372955})
+    })
+  
 })
