@@ -3,8 +3,8 @@ import TimeBlock from './TimeBlock';
 import { useSelector } from 'react-redux';
 
 export default function AvailableTimes(props) {
-    function callbackFunction (time, instructor) {
-        props.appCallback(time, instructor)
+    function callbackFunction(time, instructor) {
+        props.bookTimeCallback(time, instructor)
     }
     const availTimes = useSelector((state) => state.availTimes);
 

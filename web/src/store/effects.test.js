@@ -35,6 +35,7 @@ describe('async actions', () => {
       headers: { 'content-type': 'application/json' }
     })
     const expectedAction = [
+        { type: actions.GET_AVAIL_TIMES},
         { type: actions.GET_AVAIL_TIMES_SUCCESS, payload: result}
     ]
     
@@ -63,6 +64,7 @@ describe('async actions', () => {
       headers: { 'content-type': 'application/json' }
     })
     const expectedAction = [
+        { type: actions.GET_BOOKINGS},
         { type: actions.GET_BOOKINGS_SUCCESS, payload: payload}
     ]
     

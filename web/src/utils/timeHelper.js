@@ -20,6 +20,7 @@ const fetchToday = () => {
     return format(date, 'yyyy-MM-dd');
  }
 
+ 
  const convertTimeData = (data) => {
     let res = Object.keys(data).reduce(function (acc, curr) {
       return acc.concat(data[curr]);

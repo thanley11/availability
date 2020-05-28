@@ -36,8 +36,6 @@ describe('timeHelper', () => {
     expect(convertTimeData(timesDict)).toEqual(bookedTimes)
   })
   it('flattenTimes should return todays date and formatted in yyyy-MM-dd format', () => {
-    expect(flattenTimes(bookedTimes)).toEqual(["2019-08-27T14:00:00-04:00", "2019-08-27T13:00:00-04:00"]
-    )
+    expect(flattenTimes(bookedTimes)).toEqual(["2019-08-27T14:00:00-04:00", "2019-08-27T13:00:00-04:00"])
   })
-
 })

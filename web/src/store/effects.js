@@ -4,7 +4,7 @@ import { getBookingTimes, getAvailTimesAction, getAvailTimesSuccess, hasError, g
 
 export function getAvailableTimesThunk() {
     return function(dispatch) {
-      dispatch(getAvailTimesAction);
+      dispatch(getAvailTimesAction());
       return getAvailableTimes()
       .then((result) => result.json())
       .then((data) => convertTimeData(data))
@@ -17,7 +17,7 @@ export function getAvailableTimesThunk() {
 
 export function getBookingTimesThunk() {
     return function(dispatch) {
-      dispatch(getBookingTimes);
+      dispatch(getBookingTimes());
       return bookingTimes()
       .then((result) => result.json())
       .then(
@@ -29,7 +29,6 @@ export function getBookingTimesThunk() {
 
   export function bookTimeThunk(name, time, instructor) {
     return function (dispatch, getState) {
-        dispatch(getBookingTimes);
         return bookTime({name, time, instructor})
         .then((result) => result.json())
         .then((data) => {

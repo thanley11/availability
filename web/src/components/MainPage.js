@@ -43,12 +43,12 @@ export default function MainPage(){
 
         <div ref={scrollRef}><NameInput  showInputError={showInputError}/>
         </div>
-        {isAvailLoading ? <span id="loading">Loading...</span> : 
+        {isAvailLoading ? <span id="loading">Loading available times...</span> : 
         <div> 
-            <AvailableTimes availTimes={availTimes}  appCallback = {bookTime}/>
+            <AvailableTimes availTimes={availTimes}  bookTimeCallback={bookTime}/>
         </div>
         }
-        {isBookedLoading ? <span id="loading">Loading...</span> : 
+        {isBookedLoading ? <span id="loading">Loading booked times...</span> : 
         <div> 
             <BookedTimes bookedTimes={bookedTimes} />
         </div>}
